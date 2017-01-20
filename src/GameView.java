@@ -13,7 +13,7 @@ public class GameView extends JFrame implements Observer {
 
     private JPanel bigPn, smallPn, mainPn, rightPn, bottomPn, upperPn, scoreBoard, extraButtonPn;
     private JPanel superRightPn, superLeftPn, drawRingPn, hiddenPn;
-    private JLayeredPane layeredPane;
+    private JLayeredPane layeredPane; // Multiple layer to draw on
 
     private Box tipBox;
     private JLabel score = new JLabel("SCORE", SwingConstants.CENTER);
@@ -25,10 +25,10 @@ public class GameView extends JFrame implements Observer {
     private JButton newGame, quitGame, accept, changeIcon, hint;
     private JButton red, orange, yellow, green, aqua, blue, purple, pink;
 
-    private ImageIcon iconWhite, iconBlack, blankIcon;
+    private ImageIcon whiteIcon, blackIcon, blankIcon;
     private ImageIcon redBall, orangeBall, yellowBall, greenBall, aquaBall, blueBall, purpleBall, pinkBall;
 
-    private List<JLabel> listOfRing, drawHole, holesList, indicators, listSolution;
+    private List<JLabel> listOfRing, cellList, holesList, indicators, listSolution;
     private List<String> indicatorValues;
 
     /* Constructor  */
@@ -84,7 +84,7 @@ public class GameView extends JFrame implements Observer {
 
         /*  Main Panel */
         mainPn = new JPanel();
-        mainPn.setLayout(new GridLayout(3, 7));
+        mainPn.setLayout(new GridLayout(3, 7)); // Table: 21 cells
         mainPn.setSize(layeredPane.getPreferredSize());
         mainPn.setLocation(0, 0);
 
@@ -97,21 +97,21 @@ public class GameView extends JFrame implements Observer {
 
         holesList = new ArrayList<JLabel>(Arrays.asList(hole, hole2, hole3, hole4, hole5, hole6));
 
-        // drawHole = List of holes
-        drawHole = new ArrayList<JLabel>();
+        /* the panel is divided into cells (like a table). cellList = list of cells  */
+        cellList = new ArrayList<JLabel>();
 
         for (int i = 0; i < 21; i++) {
-            drawHole.add(i, new JLabel(""));
+            cellList.add(i, new JLabel(""));
         }
-        drawHole.set(2, holesList.get(0));
-        drawHole.set(4, holesList.get(1));
-        drawHole.set(12, holesList.get(2));
-        drawHole.set(18, holesList.get(3));
-        drawHole.set(16, holesList.get(4));
-        drawHole.set(8, holesList.get(5));
+        cellList.set(2, holesList.get(0));
+        cellList.set(4, holesList.get(1));
+        cellList.set(12, holesList.get(2));
+        cellList.set(18, holesList.get(3));
+        cellList.set(16, holesList.get(4));
+        cellList.set(8, holesList.get(5));
 
         for (int i = 0; i < 21; i++) {
-            mainPn.add(drawHole.get(i));
+            mainPn.add(cellList.get(i));
         }
 
         /*  Solution Panel - hiddenPn */
@@ -156,8 +156,8 @@ public class GameView extends JFrame implements Observer {
         rightPn.setLayout(new GridLayout(6, 1));
 
         blankIcon = new ImageIcon("src/images/blank-ball.png");
-        iconBlack = new ImageIcon("src/images/black_peg.png");
-        iconWhite = new ImageIcon("src/images/white_peg.png");
+        blackIcon = new ImageIcon("src/images/black_peg.png");
+        whiteIcon = new ImageIcon("src/images/white_peg.png");
 
         blank = createIndicator();
         blank2 = createIndicator();
@@ -253,10 +253,10 @@ public class GameView extends JFrame implements Observer {
 
         instruction = new JLabel("    Code Breaker Answer Marbles: ");
 
-        black = new JLabel("In code, in right position.", iconBlack, JLabel.CENTER);
+        black = new JLabel("In code, in right position.", blackIcon, JLabel.CENTER);
         black.setHorizontalTextPosition(JLabel.RIGHT);
 
-        white = new JLabel("In code, not in right position.", iconWhite, JLabel.CENTER);
+        white = new JLabel("In code, not in right position.", whiteIcon, JLabel.CENTER);
         white.setHorizontalTextPosition(JLabel.RIGHT);
 
         tipBox = Box.createVerticalBox();
@@ -303,7 +303,7 @@ public class GameView extends JFrame implements Observer {
         add(superRightPn, BorderLayout.EAST);
 
         // Modify buttons appearance
-        modifyBtn();
+        initiateBtn();
 
         this.setResizable(false);
         this.setVisible(true);
@@ -326,10 +326,10 @@ public class GameView extends JFrame implements Observer {
                 indicators.get(i).setIcon(blankIcon);
             }
             if (list.get(i).equals("Black")) {
-                indicators.get(i).setIcon(iconBlack);
+                indicators.get(i).setIcon(blackIcon);
             }
             if (list.get(i).equals("White")) {
-                indicators.get(i).setIcon(iconWhite);
+                indicators.get(i).setIcon(whiteIcon);
             }
         }
     }
@@ -352,6 +352,7 @@ public class GameView extends JFrame implements Observer {
             return null;
     }
 
+    /* Re-render the UI */
     public void reDrawMainPn(JPanel pn, List<JLabel> list) {
         pn.removeAll();
 
@@ -371,8 +372,7 @@ public class GameView extends JFrame implements Observer {
         }
 
         pn.revalidate();
-        pn.repaint(
-        );
+        pn.repaint();
     }
 
     public void reDrawSmallPn() {
@@ -398,11 +398,11 @@ public class GameView extends JFrame implements Observer {
 
         smallPn.revalidate();
         smallPn.repaint();
-
     }
 
-    // Modify color buttons
-    public void modifyBtn() {
+    /* Initiate buttons */
+
+    public void initiateBtn() {
         ArrayList<JButton> list = new ArrayList<JButton>();
         list.add(red);
         list.add(orange);
@@ -554,8 +554,8 @@ public class GameView extends JFrame implements Observer {
         return pinkBall;
     }
 
-    public List<JLabel> getDrawHole() {
-        return drawHole;
+    public List<JLabel> getCellList() {
+        return cellList;
     }
 
     public List<JLabel> getIndicator() {
@@ -569,6 +569,8 @@ public class GameView extends JFrame implements Observer {
     public JLabel getGiveUp() {
         return giveUp;
     }
+
+    /* Mutator */
 
     public void setOrangeBall(ImageIcon orangeBall) {
         this.orangeBall = orangeBall;

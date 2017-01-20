@@ -1,4 +1,3 @@
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -146,14 +145,13 @@ public class GameController extends JFrame {
         String color = currentPosition.getIcon().toString();
 
         model.getHoles().set(holePosition, color); // set color
-        view.reDrawMainPn(view.getMainPn(), view.getDrawHole());
+        view.reDrawMainPn(view.getMainPn(), view.getCellList());
     }
 
     /* Color Listeners */
 
     private class RedBallListener implements ActionListener {
         @Override
-
         public void actionPerformed(ActionEvent e) {
             changeColor(view.getRedBall());
         }
@@ -181,24 +179,28 @@ public class GameController extends JFrame {
     }
 
     private class GreenBallListener implements ActionListener {
+        @Override
         public void actionPerformed(ActionEvent actionEvent) {
             changeColor(view.getGreenBall());
         }
     }
 
     private class BlueBallListener implements ActionListener {
+        @Override
         public void actionPerformed(ActionEvent actionEvent) {
             changeColor(view.getBlueBall());
         }
     }
 
     private class PurpleBallListener implements ActionListener {
+        @Override
         public void actionPerformed(ActionEvent actionEvent) {
             changeColor(view.getPurpleBall());
         }
     }
 
     private class PinkBallListener implements ActionListener {
+        @Override
         public void actionPerformed(ActionEvent actionEvent) {
             changeColor(view.getPinkBall());
         }

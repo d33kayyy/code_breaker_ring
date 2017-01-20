@@ -1,4 +1,3 @@
-
 import java.util.*;
 
 public class GameModel extends Observable {
@@ -55,6 +54,7 @@ public class GameModel extends Observable {
         return indicator;
     }
 
+    // Compare the selections with solution and notify changes
     public void compare() {
         int rightColor = 0; // will show black
         int inSecret = 0; // will show white
