@@ -4,7 +4,6 @@ import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
-import java.awt.font.TextAttribute;
 import java.util.*;
 import java.util.List;
 
@@ -29,9 +28,8 @@ public class GameView extends JFrame implements Observer {
     private ImageIcon iconWhite, iconBlack, blankIcon;
     private ImageIcon redBall, orangeBall, yellowBall, greenBall, aquaBall, blueBall, purpleBall, pinkBall;
 
-    private Map holeMap, indicatorMap; // Map for holes
-    private List<JLabel> listOfRing, drawHole, indicator, keyHoleList, keyIndicatorList, listSolution;
-    private List<String> valueIndicatorList;
+    private List<JLabel> listOfRing, drawHole, holesList, indicators, listSolution;
+    private List<String> indicatorValues;
 
     /* Constructor  */
 
@@ -90,40 +88,14 @@ public class GameView extends JFrame implements Observer {
         mainPn.setSize(layeredPane.getPreferredSize());
         mainPn.setLocation(0, 0);
 
-        hole = new JLabel();
-        hole2 = new JLabel();
-        hole3 = new JLabel();
-        hole4 = new JLabel();
-        hole5 = new JLabel();
-        hole6 = new JLabel();
+        hole = createHole();
+        hole2 = createHole();
+        hole3 = createHole();
+        hole4 = createHole();
+        hole5 = createHole();
+        hole6 = createHole();
 
-        hole.setIcon(new ImageIcon("src/images/hole.png", "blank"));
-        hole.setHorizontalAlignment(JLabel.CENTER);
-
-        hole2.setIcon(new ImageIcon("src/images/hole.png", "blank"));
-        hole2.setHorizontalAlignment(JLabel.CENTER);
-
-        hole3.setIcon(new ImageIcon("src/images/hole.png", "blank"));
-        hole3.setHorizontalAlignment(JLabel.CENTER);
-
-        hole4.setIcon(new ImageIcon("src/images/hole.png", "blank"));
-        hole4.setHorizontalAlignment(JLabel.CENTER);
-
-        hole5.setIcon(new ImageIcon("src/images/hole.png", "blank"));
-        hole5.setHorizontalAlignment(JLabel.CENTER);
-
-        hole6.setIcon(new ImageIcon("src/images/hole.png", "blank"));
-        hole6.setHorizontalAlignment(JLabel.CENTER);
-
-        holeMap = new LinkedHashMap<JLabel, String>();
-        holeMap.put(hole, ((ImageIcon) hole.getIcon()).getDescription());
-        holeMap.put(hole2, ((ImageIcon) hole2.getIcon()).getDescription());
-        holeMap.put(hole3, ((ImageIcon) hole3.getIcon()).getDescription());
-        holeMap.put(hole4, ((ImageIcon) hole4.getIcon()).getDescription());
-        holeMap.put(hole5, ((ImageIcon) hole5.getIcon()).getDescription());
-        holeMap.put(hole6, ((ImageIcon) hole6.getIcon()).getDescription());
-
-        keyHoleList = new ArrayList<JLabel>(holeMap.keySet());
+        holesList = new ArrayList<JLabel>(Arrays.asList(hole, hole2, hole3, hole4, hole5, hole6));
 
         // drawHole = List of holes
         drawHole = new ArrayList<JLabel>();
@@ -131,12 +103,12 @@ public class GameView extends JFrame implements Observer {
         for (int i = 0; i < 21; i++) {
             drawHole.add(i, new JLabel(""));
         }
-        drawHole.set(2, keyHoleList.get(0));
-        drawHole.set(4, keyHoleList.get(1));
-        drawHole.set(12, keyHoleList.get(2));
-        drawHole.set(18, keyHoleList.get(3));
-        drawHole.set(16, keyHoleList.get(4));
-        drawHole.set(8, keyHoleList.get(5));
+        drawHole.set(2, holesList.get(0));
+        drawHole.set(4, holesList.get(1));
+        drawHole.set(12, holesList.get(2));
+        drawHole.set(18, holesList.get(3));
+        drawHole.set(16, holesList.get(4));
+        drawHole.set(8, holesList.get(5));
 
         for (int i = 0; i < 21; i++) {
             mainPn.add(drawHole.get(i));
@@ -187,46 +159,18 @@ public class GameView extends JFrame implements Observer {
         iconBlack = new ImageIcon("src/images/black_peg.png");
         iconWhite = new ImageIcon("src/images/white_peg.png");
 
-        blank = new JLabel();
-        blank.setIcon(blankIcon);
+        blank = createIndicator();
+        blank2 = createIndicator();
+        blank3 = createIndicator();
+        blank4 = createIndicator();
+        blank5 = createIndicator();
+        blank6 = createIndicator();
 
-        blank2 = new JLabel();
-        blank2.setIcon(blankIcon);
-
-        blank3 = new JLabel();
-        blank3.setIcon(blankIcon);
-
-        blank4 = new JLabel();
-        blank4.setIcon(blankIcon);
-
-        blank5 = new JLabel();
-        blank5.setIcon(blankIcon);
-
-        blank6 = new JLabel();
-        blank6.setIcon(blankIcon);
-
-        indicatorMap = new LinkedHashMap<JLabel, String>();
-
-        indicatorMap.put(blank, ((ImageIcon) blank.getIcon()).getDescription());
-        indicatorMap.put(blank2, ((ImageIcon) blank2.getIcon()).getDescription());
-        indicatorMap.put(blank3, ((ImageIcon) blank3.getIcon()).getDescription());
-        indicatorMap.put(blank4, ((ImageIcon) blank4.getIcon()).getDescription());
-        indicatorMap.put(blank5, ((ImageIcon) blank5.getIcon()).getDescription());
-        indicatorMap.put(blank6, ((ImageIcon) blank6.getIcon()).getDescription());
-
-        keyIndicatorList = new ArrayList<JLabel>(indicatorMap.keySet());
-        valueIndicatorList = new ArrayList<String>(holeMap.values());
-
-        indicator = new LinkedList<JLabel>();
-        indicator.add(keyIndicatorList.get(0));
-        indicator.add(keyIndicatorList.get(1));
-        indicator.add(keyIndicatorList.get(2));
-        indicator.add(keyIndicatorList.get(3));
-        indicator.add(keyIndicatorList.get(4));
-        indicator.add(keyIndicatorList.get(5));
+        indicators = new ArrayList<JLabel>(Arrays.asList(blank, blank2, blank3, blank4, blank5, blank6));
+        indicatorValues = new ArrayList<String>(Arrays.asList("blank", "blank", "blank", "blank", "blank", "blank"));
 
         for (int i = 0; i < 6; i++) {
-            rightPn.add(indicator.get(i));
+            rightPn.add(indicators.get(i));
         }
 
         /*=========================================================================================================== */
@@ -372,20 +316,20 @@ public class GameView extends JFrame implements Observer {
 
     @Override
     public void update(Observable o, Object obj) {
-        valueIndicatorList = (ArrayList<String>) obj;
-        updateIndicator(valueIndicatorList);
+        indicatorValues = (ArrayList<String>) obj;
+        updateIndicator(indicatorValues);
     }
 
     public void updateIndicator(List list) {
         for (int i = 0; i < 6; i++) {
             if (list.get(i).equals("blank")) {
-                keyIndicatorList.get(i).setIcon(blankIcon);
+                indicators.get(i).setIcon(blankIcon);
             }
             if (list.get(i).equals("Black")) {
-                keyIndicatorList.get(i).setIcon(iconBlack);
+                indicators.get(i).setIcon(iconBlack);
             }
             if (list.get(i).equals("White")) {
-                keyIndicatorList.get(i).setIcon(iconWhite);
+                indicators.get(i).setIcon(iconWhite);
             }
         }
     }
@@ -394,22 +338,17 @@ public class GameView extends JFrame implements Observer {
         int k = list.indexOf(label);
         if (k == 2) {
             return hole;
-        }
-        if (k == 4) {
+        } else if (k == 4) {
             return hole2;
-        }
-        if (k == 12) {
+        } else if (k == 12) {
             return hole3;
-        }
-        if (k == 18) {
+        } else if (k == 18) {
             return hole4;
-        }
-        if (k == 16) {
+        } else if (k == 16) {
             return hole5;
-        }
-        if (k == 8)
+        } else if (k == 8) {
             return hole6;
-        else
+        } else
             return null;
     }
 
@@ -484,6 +423,19 @@ public class GameView extends JFrame implements Observer {
         }
     }
 
+    public JLabel createHole() {
+        JLabel temp = new JLabel();
+        temp.setIcon(new ImageIcon("src/images/hole.png", "blank"));
+        temp.setHorizontalAlignment(JLabel.CENTER);
+        return temp;
+    }
+
+    public JLabel createIndicator() {
+        JLabel temp = new JLabel();
+        temp.setIcon(blankIcon);
+        return temp;
+    }
+
     /* Accessors */
 
     public JLabel[] getSolution() {
@@ -498,7 +450,7 @@ public class GameView extends JFrame implements Observer {
         return this.gameCursor;
     }
 
-    public List getListOfRing() {
+    public List<JLabel> getListOfRing() {
         return this.listOfRing;
     }
 
@@ -607,11 +559,11 @@ public class GameView extends JFrame implements Observer {
     }
 
     public List<JLabel> getIndicator() {
-        return indicator;
+        return indicators;
     }
 
-    public List<JLabel> getKeyHoleList() {
-        return keyHoleList;
+    public List<JLabel> getHolesList() {
+        return holesList;
     }
 
     public JLabel getGiveUp() {

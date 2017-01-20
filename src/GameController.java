@@ -48,24 +48,19 @@ public class GameController extends JFrame {
         if (k == 2) {
             list.set(2, new JLabel(""));
             list.set(4, label);
-        }
-        if (k == 4) {
+        } else if (k == 4) {
             list.set(4, new JLabel(""));
             list.set(12, label);
-        }
-        if (k == 12) {
+        } else if (k == 12) {
             list.set(12, new JLabel(""));
             list.set(18, label);
-        }
-        if (k == 18) {
+        } else if (k == 18) {
             list.set(18, new JLabel(""));
             list.set(16, label);
-        }
-        if (k == 16) {
+        } else if (k == 16) {
             list.set(16, new JLabel(""));
             list.set(8, label);
-        }
-        if (k == 8) {
+        } else if (k == 8) {
             list.set(8, new JLabel(""));
             list.set(2, label);
         }
@@ -143,110 +138,69 @@ public class GameController extends JFrame {
         }
     }
 
+    // Change Color
+    public void changeColor(ImageIcon icon) {
+        JLabel currentPosition = view.ringPosition(view.getListOfRing(), view.getGameCursor());
+        currentPosition.setIcon(icon);
+        int holePosition = view.getHolesList().indexOf(currentPosition);
+        String color = currentPosition.getIcon().toString();
+
+        model.getHoles().set(holePosition, color); // set color
+        view.reDrawMainPn(view.getMainPn(), view.getDrawHole());
+    }
+
     /* Color Listeners */
 
     private class RedBallListener implements ActionListener {
         @Override
 
         public void actionPerformed(ActionEvent e) {
-            JLabel currentPosition = view.ringPosition(view.getListOfRing(), view.getGameCursor());
-            currentPosition.setIcon(view.getRedBall());
-            int holePosition = view.getKeyHoleList().indexOf(currentPosition);
-            String color = currentPosition.getIcon().toString();
-
-            model.getHoles().set(holePosition, color); // set color
-            view.reDrawMainPn(view.getMainPn(), view.getDrawHole());
-
+            changeColor(view.getRedBall());
         }
     }
 
     private class YellowBallListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            JLabel temp = view.ringPosition(view.getListOfRing(), view.getGameCursor());
-            temp.setIcon(view.getYellowBall());
-            int holePosition = view.getKeyHoleList().indexOf(temp);
-            String color = ((ImageIcon) temp.getIcon()).getDescription().toString();
-
-            model.getHoles().set(holePosition, color);
-            view.reDrawMainPn(view.getMainPn(), view.getDrawHole());
+            changeColor(view.getYellowBall());
         }
     }
 
     private class OrangeBallListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            JLabel temp = view.ringPosition(view.getListOfRing(), view.getGameCursor());
-            temp.setIcon(view.getOrangeBall());
-            int holePosition = view.getKeyHoleList().indexOf(temp);
-            String color = ((ImageIcon) temp.getIcon()).getDescription();
-
-            model.getHoles().set(holePosition, color);
-            view.reDrawMainPn(view.getMainPn(), view.getDrawHole());
+            changeColor(view.getOrangeBall());
         }
     }
 
     private class AquaBallListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            JLabel temp = view.ringPosition(view.getListOfRing(), view.getGameCursor());
-            temp.setIcon(view.getAquaBall());
-            int holePosition = view.getKeyHoleList().indexOf(temp);
-            String color = ((ImageIcon) temp.getIcon()).getDescription();
-
-            model.getHoles().set(holePosition, color);
-            view.reDrawMainPn(view.getMainPn(), view.getDrawHole());
+            changeColor(view.getAquaBall());
         }
     }
 
     private class GreenBallListener implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            JLabel temp = view.ringPosition(view.getListOfRing(), view.getGameCursor());
-            temp.setIcon(view.getGreenBall());
-            int holePosition = view.getKeyHoleList().indexOf(temp);
-            String color = ((ImageIcon) temp.getIcon()).getDescription();
-
-            model.getHoles().set(holePosition, color);
-            view.reDrawMainPn(view.getMainPn(), view.getDrawHole());
+            changeColor(view.getGreenBall());
         }
     }
 
     private class BlueBallListener implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            JLabel temp = view.ringPosition(view.getListOfRing(), view.getGameCursor());
-            temp.setIcon(view.getBlueBall());
-            int holePosition = view.getKeyHoleList().indexOf(temp);
-            String color = ((ImageIcon) temp.getIcon()).getDescription();
-
-            model.getHoles().set(holePosition, color);
-            view.reDrawMainPn(view.getMainPn(), view.getDrawHole());
-
+            changeColor(view.getBlueBall());
         }
     }
 
     private class PurpleBallListener implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            JLabel temp = view.ringPosition(view.getListOfRing(), view.getGameCursor());
-            temp.setIcon(view.getPurpleBall());
-            int holePosition = view.getKeyHoleList().indexOf(temp);
-            String color = ((ImageIcon) temp.getIcon()).getDescription();
-
-            model.getHoles().set(holePosition, color);
-            view.reDrawMainPn(view.getMainPn(), view.getDrawHole());
-
+            changeColor(view.getPurpleBall());
         }
     }
 
     private class PinkBallListener implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            JLabel temp = view.ringPosition(view.getListOfRing(), view.getGameCursor());
-            temp.setIcon(view.getPinkBall());
-            int holePosition = view.getKeyHoleList().indexOf(temp);
-            String color = ((ImageIcon) temp.getIcon()).getDescription();
-
-            model.getHoles().set(holePosition, color);
-            view.reDrawMainPn(view.getMainPn(), view.getDrawHole());
-
+            changeColor(view.getPinkBall());
         }
     }
 
@@ -327,7 +281,7 @@ public class GameController extends JFrame {
             JLabel current = view.ringPosition(view.getListOfRing(), view.getGameCursor());
 
             // Get the index of the current hole
-            int position = view.getKeyHoleList().indexOf(current);
+            int position = view.getHolesList().indexOf(current);
 
             // get the color
             String color = model.getSecretCode().get(position).toString();

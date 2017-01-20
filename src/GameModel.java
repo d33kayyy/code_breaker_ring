@@ -4,16 +4,16 @@ import java.util.*;
 public class GameModel extends Observable {
     /* Fields */
 
-    private List<String> colorBag, secretCode, holes, indicator;
+    private List<String> secretCode, holes, indicator;
     private Set<String> set;
 
     /* Constructor */
 
     public GameModel() {
 
-        //list of available colors to choose
+        // List of available colors to choose
 
-        colorBag = new ArrayList<String>();
+        List<String> colorBag = new ArrayList<String>();
         colorBag.add("red");
         colorBag.add("orange");
         colorBag.add("yellow");
@@ -33,22 +33,12 @@ public class GameModel extends Observable {
             secretCode.add(i, colorBag.get(i));
         }
 
-        // 6 holes player would need to fill colors in
-        // Default = blank
-
-        holes = new ArrayList<String>();
+        holes = new ArrayList<String>();        // 6 holes player would need to fill colors in
+        indicator = new ArrayList<String>();    // Indicator shows whether the color filled in is correct or not
         for (int i = 0; i < 6; i++) {
             holes.add("blank");
-        }
-
-        // Indicator shows whether the color filled in is correct or not
-        // Default = blank
-
-        indicator = new ArrayList<String>();
-        for (int i = 0; i < 6; i++) {
             indicator.add("blank");
         }
-
     }
 
     /* Methods */
@@ -57,7 +47,7 @@ public class GameModel extends Observable {
         return secretCode;
     }
 
-    public List getHoles() {
+    public List<String> getHoles() {
         return holes;
     }
 
@@ -75,15 +65,14 @@ public class GameModel extends Observable {
             set.add(holes.get(i));
         }
 
+        // Count number of correct color and position
         for (int i = 0; i < 6; i++) {
-            if (secretCode.get(i).equals(holes.get(i))) {
+            if (secretCode.get(i).equals(holes.get(i))) {   // right color AND right position
                 rightColor++;
-            }
-        }
-
-        for (int i = 0; i < 6; i++) {
-            if (set.contains(secretCode.get(i)) && !secretCode.get(i).equals(holes.get(i))) {
-                inSecret++;
+            } else {
+                if (set.contains(secretCode.get(i))){       // right color but wrong position
+                    inSecret++;
+                }
             }
         }
 
